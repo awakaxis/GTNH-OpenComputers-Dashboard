@@ -1,9 +1,14 @@
+html {
+  background: #1c1c1cff;
+}
+
 .test-bg {
-  background: rgba(25, 25, 25, 0.65);
+  background: #2f2f2fff;
   border-radius: 15px;
   padding: 5px;
   padding-left: 10px;
   padding-right: 10px;
+  color: #fbf1c7;
 }
 
 .test-text {
@@ -11,7 +16,7 @@
 }
 
 .important {
-  color: rgba(255, 0, 0, 1);
+  color: #d44b3cff;
   font-weight: bold;
   font-size: 36px;
 }
