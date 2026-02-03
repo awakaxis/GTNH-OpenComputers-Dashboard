@@ -2,6 +2,34 @@ html {
   background: #1c1c1cff;
 }
 
+button.vert {
+  display: block;
+}
+
+.center {
+  text-align: center;
+}
+
+div.pad-sides {
+  margin-top: clamp(1px, 5vh, 45px);
+  margin-left: 2.5vw;
+  margin-right: 2.5vw;
+}
+
+.force-inline {
+  display: inline;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 0px;
+}
+
+.grid-container img {
+  justify-self: right;
+}
+
 .test-bg {
   background: #2f2f2fff;
   border-radius: 15px;
@@ -11,12 +39,24 @@ html {
   color: #fbf1c7;
 }
 
-.test-text {
-  color: rgba(0, 255, 0, 1);
+span.r-status,
+.important {
+  opacity: 85%;
+  color: #d44b3c;
+  font-weight: bold;
 }
 
 .important {
-  color: #d44b3cff;
-  font-weight: bold;
   font-size: 36px;
+}
+
+.good {
+  opacity: 85%;
+  color: #079a39;
+}
+
+span.r-status:hover,
+.important:hover {
+  /* color: #902e24ff; */
+  opacity: 100%;
 }
