@@ -1,5 +1,7 @@
-html {
-  background: #1c1c1cff;
+body {
+  background: linear-gradient(#2a2a2a, #111111);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 button.vert {
