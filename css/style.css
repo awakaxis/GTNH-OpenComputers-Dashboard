@@ -3,6 +3,17 @@ body {
   height: 100vh;
 }
 
+button {
+  background: #2f2f2f;
+  border-radius: 5px;
+  border-color: #3f3f3f;
+  padding: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: #fbf1c7;
+  box-shadow: 5px 10px 5px #1c1c1c;
+  margin: 5px;
+  margin-bottom: 10px;
 }
 
 .center {
