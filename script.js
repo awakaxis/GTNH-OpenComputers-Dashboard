@@ -1,4 +1,7 @@
+const EU_POLL_MIN_DELAY = 1000;
+
 doGet();
+pollEU();
 
 document.getElementById("send").addEventListener("click", function (event) {
   doGet();
@@ -27,6 +30,20 @@ function doGet() {
       "data"
     ];
     document.getElementById("send").innerHTML = "New Response";
+  };
+  xhr.send();
+}
+
+function pollEU() {
+  const xhr = new XMLHttpRequest();
+  const start = performance.now();
+  xhr.open("GET", "http://127.0.0.1:8000/get-eu");
+  xhr.onload = () => {
+    const elapsed = performance.now() - start;
+    document.getElementById("eu").innerHTML = JSON.parse(xhr.responseText)[
+      "data"
+    ];
+    setTimeout(pollEU, Math.max(EU_POLL_MIN_DELAY - elapsed, 0));
   };
   xhr.send();
 }
