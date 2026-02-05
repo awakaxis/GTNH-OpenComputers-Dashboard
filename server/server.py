@@ -17,11 +17,19 @@ responses = [
     "Response 7",
 ]
 
+lsc_eu = "N/A"
+
 # required to avoid cors rejection, https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"]
 )
+
+@app.get("/submit-lsc")
+def submit_lsc(stored_eu: str = "0"):
+    global lsc_eu
+    lsc_eu = stored_eu
+    return {"data": "success"}
 
 # example endpoint using query parameters
 @app.get("/echo")
