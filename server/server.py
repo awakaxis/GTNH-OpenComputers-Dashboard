@@ -31,6 +31,10 @@ def submit_lsc(stored_eu: str = "0"):
     lsc_eu = stored_eu
     return {"data": "success"}
 
+@app.get("/get-eu")
+def get_eu():
+    return {"data": lsc_eu}
+
 # example endpoint using query parameters
 @app.get("/echo")
 def echo(text: str = "echo"):
