@@ -1,6 +1,7 @@
 from random import Random
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+import time
 
 app = FastAPI()
 random = Random()
@@ -26,6 +27,8 @@ app.add_middleware(
 def test():
     global last_response
     global random
+
+    time.sleep(random.randint(0, 5))
 
     copy = responses.copy()
     copy.pop(last_response)
