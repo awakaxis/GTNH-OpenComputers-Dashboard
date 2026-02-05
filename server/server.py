@@ -23,6 +23,11 @@ app.add_middleware(
     allow_origins=["*"]
 )
 
+# example endpoint using query parameters
+@app.get("/echo")
+def echo(text: str = "echo"):
+    return {"data": text}
+
 @app.get("/test")
 def test():
     global last_response
