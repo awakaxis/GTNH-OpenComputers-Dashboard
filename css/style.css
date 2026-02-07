@@ -43,9 +43,7 @@ div.pad-sides {
 .test-bg {
   background: #2f2f2fff;
   border-radius: 15px;
-  padding: 5px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 10px;
   color: #fbf1c7;
   box-shadow: 5px 10px 5px #1c1c1c;
 }
