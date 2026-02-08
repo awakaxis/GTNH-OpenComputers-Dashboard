@@ -18,7 +18,7 @@ document.getElementById("echo").addEventListener("click", function (event) {
 });
 
 var py = 200;
-var graph = document.getElementById("eu-graph");
+const graph = document.getElementById("eu-graph");
 
 for (let i = 0; i < 60; i++) {
   const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
