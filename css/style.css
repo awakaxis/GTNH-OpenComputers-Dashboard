@@ -23,9 +23,7 @@ button {
 }
 
 .graph {
-  fill: none;
   stroke-width: 3px;
-  inset: 0;
 }
 
 .graph.negative {
@@ -43,7 +41,23 @@ button {
   border-width: 7px;
   border-radius: 15px;
   margin: 10px 5px;
-  display: inline-block;
+  display: inline-flex;
+}
+
+.eu-graph-gradient {
+  opacity: 15%;
+}
+
+.eu-graph-gradient.positive {
+  fill: url(#positive);
+}
+
+.eu-graph-gradient.negative {
+  fill: url(#negative);
+}
+
+.eu-graph-gradient.neutral {
+  fill: url(#neutral);
 }
 
 div.pad-sides {
