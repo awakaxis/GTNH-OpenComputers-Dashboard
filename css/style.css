@@ -1,3 +1,8 @@
+:root {
+  --color-green: #079a39;
+  --color-red: #d44b3c;
+}
+
 body {
   background: linear-gradient(#2a2a2a, #111111);
   height: 100%;
@@ -52,7 +57,7 @@ div.pad-sides {
 span.r-status,
 .important {
   opacity: 85%;
-  color: #d44b3c;
+  color: var(--color-red);
   font-weight: bold;
 }
 
@@ -62,7 +67,7 @@ span.r-status,
 
 .good {
   opacity: 85%;
-  color: #079a39;
+  color: --color-green;
 }
 
 span.r-status:hover,
