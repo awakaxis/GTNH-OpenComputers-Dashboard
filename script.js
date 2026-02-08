@@ -17,6 +17,23 @@ document.getElementById("echo").addEventListener("click", function (event) {
   xhr.send();
 });
 
+var py = 200;
+var graph = document.getElementById("eu-graph");
+
+for (let i = 0; i < 60; i++) {
+  const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+  let ny = py + (Math.random() - 0.6) * 20;
+  line.setAttribute("x1", i * 10);
+  line.setAttribute("y1", py);
+  line.setAttribute("x2", (i + 1) * 10);
+  line.setAttribute("y2", ny);
+  line.classList.add("graph");
+  line.classList.add(ny < py ? "positive" : "negative");
+
+  graph.appendChild(line);
+  py = ny;
+}
+
 function doGet() {
   const xhr = new XMLHttpRequest();
   xhr.open("GET", "http://127.0.0.1:8000/test/");

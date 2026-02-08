@@ -22,6 +22,28 @@ button {
   margin-bottom: 10px;
 }
 
+.graph {
+  fill: none;
+  stroke-width: 3px;
+  inset: 0;
+}
+
+.graph.negative {
+  stroke: var(--color-red);
+}
+
+.graph.positive {
+  stroke: var(--color-green);
+}
+
+.graph-card {
+  background: #292929;
+  border-style: solid;
+  border-color: #1f1f1f;
+  border-width: 7px;
+  border-radius: 15px;
+  margin: 10px 5px;
+  display: inline-block;
 }
 
 div.pad-sides {
