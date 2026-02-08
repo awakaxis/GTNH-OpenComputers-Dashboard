@@ -22,18 +22,12 @@ button {
   margin-bottom: 10px;
 }
 
-.center {
-  text-align: center;
 }
 
 div.pad-sides {
   margin-top: clamp(1px, 5vh, 45px);
   margin-left: 2.5vw;
   margin-right: 2.5vw;
-}
-
-.force-inline {
-  display: inline;
 }
 
 .grid-container {
@@ -72,6 +66,5 @@ span.r-status,
 
 span.r-status:hover,
 .important:hover {
-  /* color: #902e24ff; */
   opacity: 100%;
 }
