@@ -35,7 +35,12 @@ button {
   stroke: var(--color-green);
 }
 
+.graph.neutral {
+  stroke: gray;
+}
+
 .graph-card {
+  overflow: hidden;
   background: var(--color-bg-med);
   border-style: solid;
   border-color: #1f1f1f;

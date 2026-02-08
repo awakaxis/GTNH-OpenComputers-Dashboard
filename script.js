@@ -19,19 +19,61 @@ document.getElementById("echo").addEventListener("click", function (event) {
 
 var py = 200;
 const graph = document.getElementById("eu-graph");
+const lineGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+const gradientGroup = document.createElementNS(
+  "http://www.w3.org/2000/svg",
+  "g",
+);
+graph.appendChild(lineGroup);
+graph.appendChild(gradientGroup);
+var graphPoints = null;
+var oldSlope = null;
 
-for (let i = 0; i < 60; i++) {
+for (let i = 0; i < 40; i++) {
   const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-  let ny = py + (Math.random() - 0.6) * 20;
+  const ny = py + (Math.random() - 0.52) * 50;
+  const slope = ny === py ? "neutral" : ny < py ? "positive" : "negative";
+
+  if (oldSlope === null) oldSlope = slope;
+
   line.setAttribute("x1", i * 10);
   line.setAttribute("y1", py);
   line.setAttribute("x2", (i + 1) * 10);
   line.setAttribute("y2", ny);
   line.classList.add("graph");
-  line.classList.add(ny < py ? "positive" : "negative");
+  line.classList.add(slope);
+  lineGroup.appendChild(line);
 
-  graph.appendChild(line);
+  if (oldSlope != slope && graphPoints !== null) {
+    graphPoints += " " + i * 10 + ",250";
+    addGradient(graphPoints, oldSlope);
+  }
+
+  if (graphPoints === null) {
+    graphPoints = i * 10 + ",250 " + i * 10 + "," + py;
+  }
+
+  graphPoints += " " + (i + 1) * 10 + "," + ny;
+
+  if (i == 39) {
+    graphPoints += " " + (i + 1) * 10 + ",250";
+    addGradient(graphPoints, slope);
+  }
+
+  oldSlope = slope;
   py = ny;
+}
+
+function addGradient(points, sign) {
+  const gradient = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "polygon",
+  );
+  gradient.setAttribute("points", points);
+  gradient.classList.add("eu-graph-gradient");
+  gradient.classList.add(sign);
+  gradientGroup.appendChild(gradient);
+  graphPoints = null;
 }
 
 function doGet() {
