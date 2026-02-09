@@ -69,18 +69,21 @@ function renderLineGraph(svg, vertices, multiGradient) {
     line.classList.add(slope);
     lineGroup.appendChild(line);
 
+    // if multiGradient, the current gradient polygon is closed and flushed when the slope changes.
     if (multiGradient && oldSlope != slope && gradientPoints !== null) {
       gradientPoints += " " + pVertex.x + ",250";
       addGradient(gradientGroup, gradientPoints, oldSlope);
       gradientPoints = null;
     }
 
+    // the gradient points must be reinitialized, drawing the left side of the gradient polygon.
     if (gradientPoints === null) {
       gradientPoints = pVertex.x + ",250 " + pVertex.x + "," + pVertex.y;
     }
 
     gradientPoints += " " + nVertex.x + "," + nVertex.y;
 
+    // for the last iteration, the current gradient polygon must be closed at the bottom of the graph.
     if (i == vertices.length - 2) {
       gradientPoints += " " + nVertex.x + ",250";
       const fVertex = vertices[0];
@@ -97,9 +100,7 @@ function renderLineGraph(svg, vertices, multiGradient) {
     }
 
     oldSlope = slope;
-    console.log(i);
   }
-  console.log(vertices.length);
 }
 
 function addGradient(group, points, sign) {
