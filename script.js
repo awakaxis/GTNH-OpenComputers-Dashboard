@@ -84,12 +84,11 @@ function renderLineGraph(svg, vertices, multiGradient) {
     if (i == vertices.length - 2) {
       gradientPoints += " " + nVertex.x + ",250";
       const fVertex = vertices[0];
-      const lVertex = vertices[i + 1];
       if (!multiGradient) {
         slope =
-          fVertex.y === lVertex.y
+          fVertex.y === nVertex.y
             ? "neutral"
-            : lVertex.y < fVertex.y
+            : nVertex.y < fVertex.y
               ? "positive"
               : "negative";
       }
