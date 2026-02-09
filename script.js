@@ -17,36 +17,9 @@ document.getElementById("echo").addEventListener("click", function (event) {
   xhr.send();
 });
 
-var py = 200;
 const graph = document.getElementById("eu-graph");
-const lineGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
-const gradientGroup = document.createElementNS(
-  "http://www.w3.org/2000/svg",
-  "g",
-);
-graph.appendChild(lineGroup);
-graph.appendChild(gradientGroup);
-var graphPoints = null;
-var oldSlope = null;
 
-for (let i = 0; i < 40; i++) {
-  const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-  const ny = py + (Math.random() - 0.52) * 50;
-  const slope = ny === py ? "neutral" : ny < py ? "positive" : "negative";
-
-  if (oldSlope === null) oldSlope = slope;
-
-  line.setAttribute("x1", i * 10);
-  line.setAttribute("y1", py);
-  line.setAttribute("x2", (i + 1) * 10);
-  line.setAttribute("y2", ny);
-  line.classList.add("graph");
-  line.classList.add(slope);
-  lineGroup.appendChild(line);
-
-  if (oldSlope != slope && graphPoints !== null) {
-    graphPoints += " " + i * 10 + ",250";
-    addGradient(graphPoints, oldSlope);
+renderLineGraph(graph, randGraphVerts(), false);
 
 function randGraphVerts() {
   var py = 200;
@@ -58,19 +31,76 @@ function randGraphVerts() {
   return verts;
 }
 
-  if (graphPoints === null) {
-    graphPoints = i * 10 + ",250 " + i * 10 + "," + py;
+function renderLineGraph(svg, vertices, multiGradient) {
+  if (vertices.length < 2) {
+    console.error("line graph must have at least 2 vertices");
+    return;
   }
 
-  graphPoints += " " + (i + 1) * 10 + "," + ny;
+  var gradientPoints = null;
+  var oldSlope = null;
 
-  if (i == 39) {
-    graphPoints += " " + (i + 1) * 10 + ",250";
-    addGradient(graphPoints, slope);
+  const lineGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  const gradientGroup = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "g",
+  );
+  svg.appendChild(lineGroup);
+  svg.appendChild(gradientGroup);
+
+  for (let i = 0; i < vertices.length - 1; i++) {
+    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    const pVertex = vertices[i];
+    const nVertex = vertices[i + 1];
+    let slope =
+      nVertex.y === pVertex.y
+        ? "neutral"
+        : nVertex.y < pVertex.y
+          ? "positive"
+          : "negative";
+
+    if (oldSlope === null) oldSlope = slope;
+
+    line.setAttribute("x1", pVertex.x);
+    line.setAttribute("y1", pVertex.y);
+    line.setAttribute("x2", nVertex.x);
+    line.setAttribute("y2", nVertex.y);
+    line.classList.add("graph");
+    line.classList.add(slope);
+    lineGroup.appendChild(line);
+
+    if (multiGradient && oldSlope != slope && gradientPoints !== null) {
+      gradientPoints += " " + pVertex.x + ",250";
+      addGradient(gradientGroup, gradientPoints, oldSlope);
+      gradientPoints = null;
+    }
+
+    if (gradientPoints === null) {
+      gradientPoints = pVertex.x + ",250 " + pVertex.x + "," + pVertex.y;
+    }
+
+    gradientPoints += " " + nVertex.x + "," + nVertex.y;
+
+    if (i == vertices.length - 2) {
+      gradientPoints += " " + nVertex.x + ",250";
+      const fVertex = vertices[0];
+      const lVertex = vertices[i + 1];
+      if (!multiGradient) {
+        slope =
+          fVertex.y === lVertex.y
+            ? "neutral"
+            : lVertex.y < fVertex.y
+              ? "positive"
+              : "negative";
+      }
+      addGradient(gradientGroup, gradientPoints, slope);
+      gradientPoints = null;
+    }
+
+    oldSlope = slope;
+    console.log(i);
   }
-
-  oldSlope = slope;
-  py = ny;
+  console.log(vertices.length);
 }
 
 function addGradient(group, points, sign) {
