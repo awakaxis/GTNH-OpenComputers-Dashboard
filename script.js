@@ -47,7 +47,16 @@ for (let i = 0; i < 40; i++) {
   if (oldSlope != slope && graphPoints !== null) {
     graphPoints += " " + i * 10 + ",250";
     addGradient(graphPoints, oldSlope);
+
+function randGraphVerts() {
+  var py = 200;
+  const verts = [];
+  for (let i = 0; i < 41; i++) {
+    py += (Math.random() - 0.52) * 50;
+    verts.push({ x: i * 10, y: py });
   }
+  return verts;
+}
 
   if (graphPoints === null) {
     graphPoints = i * 10 + ",250 " + i * 10 + "," + py;
