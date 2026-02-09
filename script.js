@@ -64,7 +64,7 @@ for (let i = 0; i < 40; i++) {
   py = ny;
 }
 
-function addGradient(points, sign) {
+function addGradient(group, points, sign) {
   const gradient = document.createElementNS(
     "http://www.w3.org/2000/svg",
     "polygon",
@@ -72,8 +72,7 @@ function addGradient(points, sign) {
   gradient.setAttribute("points", points);
   gradient.classList.add("eu-graph-gradient");
   gradient.classList.add(sign);
-  gradientGroup.appendChild(gradient);
-  graphPoints = null;
+  group.appendChild(gradient);
 }
 
 function doGet() {
