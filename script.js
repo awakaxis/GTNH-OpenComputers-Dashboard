@@ -19,7 +19,13 @@ document.getElementById("echo").addEventListener("click", function (event) {
 
 const graph = document.getElementById("eu-graph");
 
-renderLineGraph(graph, randGraphVerts(), false);
+renderLineGraph(
+  graph,
+  randGraphVerts(65, 41, 100, 100, 0.48, 0.2),
+  100,
+  100,
+  false,
+);
 
 // bias should be between 0 and 1 where lower numbers bias the random values towards positive change.
 // variance is the fraction of the range that any two adjacent data points can vary by at most
@@ -33,7 +39,13 @@ function randGraphVerts(startY, count, domain, range, bias, variance) {
   return verts;
 }
 
-function renderLineGraph(svg, vertices, multiGradient) {
+function renderLineGraph(svg, vertices, domain, range, multiGradient) {
+  const xResolution = svg.getAttribute("width");
+  const yResolution = svg.getAttribute("height");
+
+  const domainToImage = xResolution / domain;
+  const rangeToImage = yResolution / range;
+
   if (vertices.length < 2) {
     console.error("line graph must have at least 2 vertices");
     return;
@@ -52,8 +64,17 @@ function renderLineGraph(svg, vertices, multiGradient) {
 
   for (let i = 0; i < vertices.length - 1; i++) {
     const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-    const pVertex = vertices[i];
-    const nVertex = vertices[i + 1];
+
+    // convert our data points from graph space to image space so that they can be rendered
+    const pVertex = {
+      x: vertices[i].x * domainToImage,
+      y: (vertices[i].y * -1 + range) * rangeToImage,
+    };
+    const nVertex = {
+      x: vertices[i + 1].x * domainToImage,
+      y: (vertices[i + 1].y * -1 + range) * rangeToImage,
+    };
+
     let slope =
       nVertex.y === pVertex.y
         ? "neutral"
@@ -88,7 +109,10 @@ function renderLineGraph(svg, vertices, multiGradient) {
     // for the last iteration, the current gradient polygon must be closed at the bottom of the graph.
     if (i == vertices.length - 2) {
       gradientPoints += " " + nVertex.x + ",250";
-      const fVertex = vertices[0];
+      const fVertex = {
+        x: vertices[0].x * domainToImage,
+        y: (vertices[0].y * -1 + range) * rangeToImage,
+      };
       if (!multiGradient) {
         slope =
           fVertex.y === nVertex.y
