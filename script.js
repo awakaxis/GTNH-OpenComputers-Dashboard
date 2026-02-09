@@ -21,12 +21,14 @@ const graph = document.getElementById("eu-graph");
 
 renderLineGraph(graph, randGraphVerts(), false);
 
-function randGraphVerts() {
-  var py = 200;
+// bias should be between 0 and 1 where lower numbers bias the random values towards positive change.
+// variance is the fraction of the range that any two adjacent data points can vary by at most
+function randGraphVerts(startY, count, domain, range, bias, variance) {
   const verts = [];
-  for (let i = 0; i < 41; i++) {
-    py += (Math.random() - 0.52) * 50;
-    verts.push({ x: i * 10, y: py });
+  for (let i = 0; i < count + 1; i++) {
+    startY += (Math.random() - bias) * (range * variance);
+    startY = Math.max(0, Math.min(startY, range));
+    verts.push({ x: i * (domain / count), y: startY });
   }
   return verts;
 }
