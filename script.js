@@ -18,14 +18,11 @@ document.getElementById("echo").addEventListener("click", function (event) {
 });
 
 const graph = document.getElementById("eu-graph");
+let euValues = [];
 
-renderLineGraph(
-  graph,
-  randGraphVerts(65, 42, 42, 100, 100, 0.48, 0.1),
-  100,
-  100,
-  false,
-);
+// let debug = randGraphVerts(50, 42, 42, 100, 100, 0.5, 0.1, false);
+
+// renderLineGraph(graph, debug, 100, 100, false, true, 42);
 
 // bias should be between 0 and 1 where lower numbers bias the random values towards positive change.
 // variance is the fraction of the range that any two adjacent data points can vary by at most
@@ -47,7 +44,16 @@ function randGraphVerts(
   return verts;
 }
 
-function renderLineGraph(svg, vertices, domain, range, multiGradient) {
+// if fixedInterval, vertices is just an array of values that will be evenly placed across the domain (useful for fixed sample rate data)
+function renderLineGraph(
+  svg,
+  vertices,
+  domain,
+  range,
+  multiGradient,
+  fixedInterval,
+  maxCount,
+) {
   const xResolution = svg.getAttribute("width");
   const yResolution = svg.getAttribute("height");
 
@@ -62,26 +68,36 @@ function renderLineGraph(svg, vertices, domain, range, multiGradient) {
   var gradientPoints = null;
   var oldSlope = null;
 
-  const lineGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
-  const gradientGroup = document.createElementNS(
-    "http://www.w3.org/2000/svg",
-    "g",
-  );
-  svg.appendChild(lineGroup);
-  svg.appendChild(gradientGroup);
+  const lineGroup = document.getElementById("lines");
+  const gradientGroup = document.getElementById("gradients");
+  lineGroup.innerHTML = "";
+  gradientGroup.innerHTML = "";
 
   for (let i = 0; i < vertices.length - 1; i++) {
     const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
 
     // convert our data points from graph space to image space so that they can be rendered
-    const pVertex = {
-      x: vertices[i].x * domainToImage,
-      y: (vertices[i].y * -1 + range) * rangeToImage,
-    };
-    const nVertex = {
-      x: vertices[i + 1].x * domainToImage,
-      y: (vertices[i + 1].y * -1 + range) * rangeToImage,
-    };
+    let pVertex = null;
+    let nVertex = null;
+    if (fixedInterval) {
+      pVertex = {
+        x: i * (domain / maxCount) * domainToImage,
+        y: (vertices[i] * -1 + range) * rangeToImage,
+      };
+      nVertex = {
+        x: (i + 1) * (domain / maxCount) * domainToImage,
+        y: (vertices[i + 1] * -1 + range) * rangeToImage,
+      };
+    } else {
+      pVertex = {
+        x: vertices[i].x * domainToImage,
+        y: (vertices[i].y * -1 + range) * rangeToImage,
+      };
+      nVertex = {
+        x: vertices[i + 1].x * domainToImage,
+        y: (vertices[i + 1].y * -1 + range) * rangeToImage,
+      };
+    }
 
     let slope =
       nVertex.y === pVertex.y
@@ -171,9 +187,19 @@ function pollEU() {
   xhr.open("GET", "http://127.0.0.1:8000/get-eu");
   xhr.onload = () => {
     const elapsed = performance.now() - start;
-    document.getElementById("eu").innerHTML = JSON.parse(xhr.responseText)[
-      "data"
-    ];
+    eu = JSON.parse(xhr.responseText)["data"];
+    document.getElementById("eu").innerHTML = eu;
+
+    if (isNaN(Number(eu))) {
+      return;
+    }
+    euValues.push(Number(eu));
+    if (euValues.length == 42) {
+      euValues.shift();
+    }
+
+    renderLineGraph(graph, euValues, 40, 30000000, false, true, 40);
+
     setTimeout(pollEU, Math.max(EU_POLL_MIN_DELAY - elapsed, 0));
   };
   xhr.send();
