@@ -133,15 +133,14 @@ function renderLineGraph(
     // for the last iteration, the current gradient polygon must be closed at the bottom of the graph.
     if (i == vertices.length - 2) {
       gradientPoints += " " + nVertex.x + ",250";
-      const fVertex = {
-        x: vertices[0].x * domainToImage,
-        y: (vertices[0].y * -1 + range) * rangeToImage,
-      };
+      const fY = fixedInterval
+        ? (vertices[0] * -1 + range) * rangeToImage
+        : (vertices[0].y * -1 + range) * rangeToImage;
       if (!multiGradient) {
         slope =
-          fVertex.y === nVertex.y
+          fY === nVertex.y
             ? "neutral"
-            : nVertex.y < fVertex.y
+            : nVertex.y < fY
               ? "positive"
               : "negative";
       }
