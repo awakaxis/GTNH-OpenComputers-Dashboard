@@ -34,12 +34,17 @@ function randGraphVerts(
   range,
   bias,
   variance,
+  generateX,
 ) {
   const verts = [];
   for (let i = 0; i < count + 1; i++) {
     startY += (Math.random() - bias) * (range * variance);
     startY = Math.max(0, Math.min(startY, range));
-    verts.push({ x: i * (domain / maxCount), y: startY });
+    if (generateX) {
+      verts.push({ x: i * (domain / maxCount), y: startY });
+    } else {
+      verts.push(startY);
+    }
   }
   return verts;
 }
