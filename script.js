@@ -1,6 +1,6 @@
 const EU_POLL_MIN_DELAY = 1000;
 
-doGet();
+doGetTest();
 pollEU();
 
 document.getElementById("send").addEventListener("click", function (event) {
@@ -148,7 +148,7 @@ function addGradient(group, points, sign) {
   group.appendChild(gradient);
 }
 
-function doGet() {
+function doGetTest() {
   const xhr = new XMLHttpRequest();
   xhr.open("GET", "http://127.0.0.1:8000/test/");
   xhr.onloadstart = () => {
