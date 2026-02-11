@@ -199,7 +199,7 @@ function pollEU() {
       return;
     }
     euValues.push(Number(eu));
-    if (euValues.length == 42) {
+    while (euValues.length > EU_BUFFER_SIZE) {
       euValues.shift();
     }
 
