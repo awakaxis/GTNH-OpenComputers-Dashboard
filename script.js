@@ -72,7 +72,7 @@ function renderLineGraph(
   const rangeToImage = yResolution / range;
 
   if (vertices.length < 2) {
-    console.error("line graph must have at least 2 vertices");
+    console.warn("line graph must have at least 2 vertices");
     return;
   }
 
