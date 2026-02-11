@@ -1,5 +1,10 @@
 const EU_POLL_MIN_DELAY = 1000;
 const EU_BUFFER_SIZE = 100;
+const EU_FORMATTER = new Intl.NumberFormat("en-US", {
+  notation: "scientific",
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+});
 
 doGetTest();
 pollEU();
@@ -192,13 +197,13 @@ function pollEU() {
   xhr.open("GET", "http://127.0.0.1:8000/get-eu");
   xhr.onload = () => {
     const elapsed = performance.now() - start;
-    eu = JSON.parse(xhr.responseText)["data"];
-    document.getElementById("eu").innerHTML = eu;
-
-    if (isNaN(Number(eu))) {
+    eu = Number(JSON.parse(xhr.responseText)["data"]);
+    if (isNaN(eu)) {
       return;
     }
-    euValues.push(Number(eu));
+    document.getElementById("eu").innerHTML = EU_FORMATTER.format(eu);
+
+    euValues.push(eu);
     while (euValues.length > EU_BUFFER_SIZE) {
       euValues.shift();
     }
