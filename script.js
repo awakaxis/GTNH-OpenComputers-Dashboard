@@ -1,4 +1,5 @@
 const EU_POLL_MIN_DELAY = 1000;
+const EU_BUFFER_SIZE = 100;
 
 doGetTest();
 pollEU();
@@ -202,7 +203,15 @@ function pollEU() {
       euValues.shift();
     }
 
-    renderLineGraph(graph, euValues, 40, 30000000, false, true, 40);
+    renderLineGraph(
+      graph,
+      euValues,
+      EU_BUFFER_SIZE,
+      5.4e10,
+      false,
+      true,
+      EU_BUFFER_SIZE,
+    );
 
     setTimeout(pollEU, Math.max(EU_POLL_MIN_DELAY - elapsed, 0));
   };
