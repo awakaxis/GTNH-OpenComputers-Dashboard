@@ -27,7 +27,15 @@
       </div>
       <img src="greg.png" alt="Picture of Gregorius T." />
     </div>
-    <div class="test-bg pad-sides">
+    <div
+      class="test-bg pad-sides"
+      style="
+        display: grid;
+        grid-template-columns: max-content max-content;
+        justify-items: start;
+        gap: 5px;
+      "
+    >
       <div class="graph-card">
         <svg id="eu-graph" height="250" width="400">
           <defs>
@@ -47,6 +55,22 @@
           <g id="lines" />
           <g id="gradients" />
         </svg>
+      </div>
+      <div>
+        <p>Current EU: <span id="eu-span">0</span></p>
+        <p>
+          Net EU Change: <span id="eu-net-change-span">0</span> over last 5
+          seconds.
+        </p>
+        <p>
+          Average EU IN: <span id="eu-average-in-span">0</span> over last 5
+          seconds.
+        </p>
+        <p>
+          Average EU OUT: <span id="eu-average-out-span">0</span> over last 5
+          seconds.
+        </p>
+        <p>Passive Loss: <span id="eu-passive-loss-span">0</span></p>
       </div>
     </div>
     <script src="script.js"></script>
