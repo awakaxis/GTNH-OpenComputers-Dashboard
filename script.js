@@ -92,11 +92,11 @@ function renderLineGraph(
     let nVertex = null;
     if (fixedInterval) {
       pVertex = {
-        x: i * (domain / maxCount) * domainToImage,
+        x: i * (domain / (maxCount - 2)) * domainToImage,
         y: (vertices[i] * -1 + range) * rangeToImage,
       };
       nVertex = {
-        x: (i + 1) * (domain / maxCount) * domainToImage,
+        x: (i + 1) * (domain / (maxCount - 2)) * domainToImage,
         y: (vertices[i + 1] * -1 + range) * rangeToImage,
       };
     } else {
