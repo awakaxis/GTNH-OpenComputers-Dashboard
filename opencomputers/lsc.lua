@@ -1,19 +1,21 @@
--- TODO: simple test file, needs work
 local component = require("component")
 local internet = require("internet")
-local event = require("event")
 
-for a, t in component.list() do
-	print(a, t)
-	if t == "gt_machine" then
-		local proxy = component.proxy(a)
-		for k, c in pairs(proxy) do
-			print(k)
-		end
-		repeat
-			print(proxy.getStoredEU())
-			internet.request("http://192.168.1.3:8000/submit-lsc?stored_eu=" .. tostring(proxy.getStoredEU()))
-		until event.pull(1) == "interrupted"
-	end
+local tProxy = component.proxy("172ab067-ab6f-4f0e-b9bf-99a3b698c7d0")
+
+print("serving LSC information...")
+while true do
+	local sRequestBody = '{"stored": %s, "avg_in": %s, "avg_out": %s, "passive_loss": %s, "time_to_empty": %s}'
+	local tSensorInformation = tProxy.getSensorInformation()
+	local sAvgIn = tSensorInformation[10]:match("(.-)%s%(", 12)
+	local sAvgOut = tSensorInformation[11]:match("(.-)%s%(", 13)
+	local sPassiveLoss = tSensorInformation[7]:match("(.-)%sE", 15)
+	internet.request(
+		"http://192.168.1.3:8000/submit-lsc",
+		sRequestBody:format(tProxy.getStoredEU(), sAvgIn, sAvgOut, sPassiveLoss),
+		{},
+		"PUT"
+	)
+	os.sleep(0.5)
 end
 
