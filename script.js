@@ -201,7 +201,8 @@ function pollEU() {
     if (isNaN(eu)) {
       return;
     }
-    document.getElementById("eu").innerHTML = EU_FORMATTER.format(eu);
+    document.getElementById("eu-span").innerHTML =
+      eu == 0 ? "0" : EU_FORMATTER.format(eu);
 
     euValues.push(eu);
     while (euValues.length > EU_BUFFER_SIZE) {
