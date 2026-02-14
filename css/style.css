@@ -2,6 +2,9 @@
   --color-green: #079a39;
   --color-red: #d44b3c;
   --color-bg-med: #292929;
+  --color-bg-light: #2f2f2f;
+  --color-text: #fbf1c7;
+  --color-box-shadow: #1c1c1c;
 }
 
 body {
@@ -11,14 +14,14 @@ body {
 }
 
 button {
-  background: #2f2f2f;
+  background: var(--color-bg-light);
   border-radius: 5px;
   border-color: #3f3f3f;
   padding: 10px;
   padding-left: 10px;
   padding-right: 10px;
-  color: #fbf1c7;
-  box-shadow: 5px 10px 5px #1c1c1c;
+  color: var(--color-text);
+  box-shadow: 5px 10px 5px var(--color-box-shadow);
   margin: 5px;
   margin-bottom: 10px;
 }
@@ -66,6 +69,11 @@ button {
   fill: url(#neutral);
 }
 
+.eu-stat {
+  font-weight: bold;
+  /* color: var(--color-red); */
+}
+
 div.pad-sides {
   margin-top: clamp(1px, 5vh, 45px);
   margin-left: 2.5vw;
@@ -83,30 +91,9 @@ div.pad-sides {
 }
 
 .test-bg {
-  background: #2f2f2fff;
+  background: var(--color-bg-light);
   border-radius: 15px;
   padding: 10px;
-  color: #fbf1c7;
-  box-shadow: 5px 10px 5px #1c1c1c;
-}
-
-span.r-status,
-.important {
-  opacity: 85%;
-  color: var(--color-red);
-  font-weight: bold;
-}
-
-.important {
-  font-size: 36px;
-}
-
-.good {
-  opacity: 85%;
-  color: var(--color-green);
-}
-
-span.r-status:hover,
-.important:hover {
-  opacity: 100%;
+  color: var(--color-text);
+  box-shadow: 5px 10px 5px var(--color-box-shadow);
 }
