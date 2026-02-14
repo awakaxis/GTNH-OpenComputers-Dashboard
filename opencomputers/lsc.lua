@@ -5,7 +5,7 @@ local tProxy = component.proxy("172ab067-ab6f-4f0e-b9bf-99a3b698c7d0")
 
 print("serving LSC information...")
 while true do
-	local sRequestBody = '{"stored": %s, "avg_in": %s, "avg_out": %s, "passive_loss": %s}'
+	local sRequestBody = '{"stored": "%s", "avg_in": "%s", "avg_out": "%s", "passive_loss": "%s"}'
 	local tSensorInformation = tProxy.getSensorInformation()
 	local sStoredEU = tProxy.getStoredEU()
 	local sAvgIn = tSensorInformation[10]:match("(.-)%s%(", 12)
