@@ -198,9 +198,6 @@ function pollEU() {
   xhr.onload = () => {
     const elapsed = performance.now() - start;
     eu = Number(JSON.parse(xhr.responseText)["data"]);
-    if (isNaN(eu)) {
-      return;
-    }
     document.getElementById("eu-span").innerHTML =
       eu == 0 ? "0" : EU_FORMATTER.format(eu);
 
