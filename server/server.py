@@ -2,6 +2,7 @@ from random import Random
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+import helpers
 import time
 
 app = FastAPI()
@@ -18,32 +19,38 @@ responses = [
     "Response 7",
 ]
 
-lsc_eu = "N/A"
+
+class EUData(BaseModel):
+    stored: str = "0"
+    avg_in: str = "0"
+    avg_out: str = "0"
+    passive_loss: str = "0"
+
+
+lsc_data: dict = {}
 
 # required to avoid cors rejection, https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS
 app.add_middleware(CORSMiddleware, allow_origins=["*"])
-
-
-class EUData(BaseModel):
-    stored: int = 0
-    avg_in: int = 0
-    avg_out: int = 0
-    passive_loss: int = 0
 
 
 @app.put("/submit-lsc")
 def submit_lsc(
     data: EUData,
 ):
-    global lsc_eu
-    lsc_eu = data.stored
+    global lsc_data
+    lsc_data = {
+        "stored": helpers.handle_formatted_number(data.stored),
+        "avg_in": helpers.handle_formatted_number(data.avg_in),
+        "avg_out": helpers.handle_formatted_number(data.avg_out),
+        "passive_loss": helpers.handle_formatted_number(data.passive_loss),
+    }
 
     return {"data": "success"}
 
 
 @app.get("/get-eu")
 def get_eu():
-    return {"data": lsc_eu}
+    return lsc_data
 
 
 # example endpoint using query parameters
