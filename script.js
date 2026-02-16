@@ -197,11 +197,30 @@ function pollEU() {
   xhr.open("GET", "http://127.0.0.1:8000/get-eu");
   xhr.onload = () => {
     const elapsed = performance.now() - start;
-    eu = Number(JSON.parse(xhr.responseText)["data"]);
-    document.getElementById("eu-span").innerHTML =
-      eu == 0 ? "0" : EU_FORMATTER.format(eu);
+    const json = JSON.parse(xhr.responseText);
+    const FORMAT_THRESHOLD = 100000;
+    console.log(xhr.responseText);
 
-    euValues.push(eu);
+    stored = Number(json["stored"]);
+    avg_in = Number(json["avg_in"]);
+    avg_out = Number(json["avg_out"]);
+    passive_loss = Number(json["passive_loss"]);
+
+    document.getElementById("eu-span").innerHTML =
+      stored <= FORMAT_THRESHOLD ? stored : EU_FORMATTER.format(stored);
+
+    document.getElementById("eu-average-in-span").innerHTML =
+      avg_in <= FORMAT_THRESHOLD ? avg_in : EU_FORMATTER.format(avg_in);
+
+    document.getElementById("eu-average-out-span").innerHTML =
+      avg_out <= FORMAT_THRESHOLD ? avg_out : EU_FORMATTER.format(avg_out);
+
+    document.getElementById("eu-passive-loss-span").innerHTML =
+      passive_loss <= FORMAT_THRESHOLD
+        ? passive_loss
+        : EU_FORMATTER.format(passive_loss);
+
+    euValues.push(stored);
     while (euValues.length > EU_BUFFER_SIZE) {
       euValues.shift();
     }
