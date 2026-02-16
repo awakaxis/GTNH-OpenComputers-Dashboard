@@ -206,8 +206,20 @@ function pollEU() {
     avg_out = Number(json["avg_out"]);
     passive_loss = Number(json["passive_loss"]);
 
+    net_change = avg_in - avg_out - passive_loss;
+
     document.getElementById("eu-span").innerHTML =
       stored <= FORMAT_THRESHOLD ? stored : EU_FORMATTER.format(stored);
+
+    document.getElementById("eu-net-change-span").innerHTML =
+      Math.abs(net_change) <= FORMAT_THRESHOLD
+        ? net_change
+        : EU_FORMATTER.format(net_change);
+
+    document.getElementById("eu-net-change-span").style =
+      "color: var(--color-" +
+      (net_change == 0 ? "text" : net_change > 0 ? "green" : "red") +
+      ");";
 
     document.getElementById("eu-average-in-span").innerHTML =
       avg_in <= FORMAT_THRESHOLD ? avg_in : EU_FORMATTER.format(avg_in);
